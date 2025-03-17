@@ -1,29 +1,25 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.5)
 project(mobileye_node)
 
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  std_msgs
-  message_generation
-)
+# Encontrar dependencias de ROS 2
+find_package(ament_cmake REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(can_msgs REQUIRED)
+find_package(mobileye_msgs REQUIRED)
 
-catkin_install_python(PROGRAMS
+# Instalar el script de Python
+install(
+  PROGRAMS
   scripts/mobileye_node.py
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/mobileye_node
+  DESTINATION lib/${PROJECT_NAME}
 )
 
-install(FILES
-  scripts/mobileye_node.launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/mobileye_node
+# Instalar archivos de lanzamiento
+install(
+  DIRECTORY scripts/
+  DESTINATION share/${PROJECT_NAME}
 )
 
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
-
-
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
+# Exportar dependencias
+ament_package()
